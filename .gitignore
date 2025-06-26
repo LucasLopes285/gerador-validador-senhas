@@ -1,0 +1,24 @@
+ # Arquivos gerados pelo processo de build do Maven
+/gerador-senhas-api/target/
+
+# Arquivos de log
+*.log
+
+# Arquivos da IDE IntelliJ
+.idea/
+*.iml
+
+# Dependências do Node (pasta gigante e desnecessária)
+/frontend/node_modules/
+
+# Arquivos de build e cache do frontend
+/frontend/dist/
+/frontend/.vite/
+
+# Arquivos de ambiente do sistema operacional
+.DS_Store
+Thumbs.db
+
+
+# Ignora nosso novo arquivo de segredos 
+/gerador-senhas-api/src/main/resources/application-secrets.properties
