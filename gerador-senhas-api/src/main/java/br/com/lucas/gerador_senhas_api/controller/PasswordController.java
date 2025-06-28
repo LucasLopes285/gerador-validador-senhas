@@ -2,10 +2,16 @@ package br.com.lucas.gerador_senhas_api.controller;
 
 import br.com.lucas.gerador_senhas_api.dto.ValidationRequest;
 import br.com.lucas.gerador_senhas_api.dto.ValidationResponse;
+import br.com.lucas.gerador_senhas_api.model.PasswordHistory;
+import br.com.lucas.gerador_senhas_api.repository.PasswordHistoryRepository;
 import br.com.lucas.gerador_senhas_api.service.PasswordGeneratorService;
 import br.com.lucas.gerador_senhas_api.service.PasswordValidatorService;
+import br.com.lucas.gerador_senhas_api.service.PolicyManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -14,13 +20,15 @@ public class PasswordController {
 
     @Autowired
     private PasswordGeneratorService passwordService;
+
     @Autowired
     private PasswordValidatorService validatorService;
 
-    @GetMapping("/ola")
-    public String dizerOla(){
-        return "Olá, mundo! A minha primeira API REST está no ar!";
-    }
+    @Autowired
+    private PasswordHistoryRepository historyRepository;
+
+    @Autowired
+    private PolicyManagerService policyManagerService;
 
     @GetMapping("/gerar")
     public String gerarSenha(
@@ -33,8 +41,21 @@ public class PasswordController {
         return passwordService.generatePassword(length, includeUppercase, includeDigits, includeSpecial);
     }
 
+    @GetMapping("/historico")
+    public List<PasswordHistory> getPasswordHistory(){
+        return historyRepository.findAllByOrderByIdDesc();
+    }
+
+    @GetMapping("/politicas")
+    public List<Map<String, String>> getPolicies(){
+        return policyManagerService.getAvailablePolicies();
+    }
+
     @PostMapping("/validar")
-    public ValidationResponse validarSenha(@RequestBody ValidationRequest request){
-        return validatorService.validatePassword(request.password());
+    public ValidationResponse validarSenha(
+            @RequestBody ValidationRequest request,
+            @RequestParam(required = false) String policyKey) { // Recebe a chave da política como parâmetro opcional
+
+        return validatorService.validatePassword(request.password(), policyKey);
     }
 }

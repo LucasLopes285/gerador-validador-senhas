@@ -1,5 +1,6 @@
 package br.com.lucas.gerador_senhas_api.model;
 
+import br.com.lucas.gerador_senhas_api.crypto.StringCryptoConverter;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ public class PasswordHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = StringCryptoConverter.class)
     @Column(name = "password_value", nullable = false)
     private String passwordValue;
 
