@@ -1,6 +1,6 @@
 package br.com.lucas.gerador_senhas_api.service;
 
-// Imports necessários
+
 import br.com.lucas.gerador_senhas_api.dto.PolicyValidationResult;
 import br.com.lucas.gerador_senhas_api.dto.ValidationResponse;
 import br.com.lucas.gerador_senhas_api.policy.PasswordPolicy;
@@ -18,11 +18,11 @@ import java.util.List;
 @Service
 public class PasswordValidatorService {
 
-    // --- ERRO 1 CORRIGIDO: Injetando o PolicyManagerService para podermos usá-lo ---
+
     @Autowired
     private PolicyManagerService policyManagerService;
 
-    // --- ERRO 2 CORRIGIDO: Adicionando o parâmetro 'policyKey' que estava faltando ---
+
     public ValidationResponse validatePassword(String password, String policyKey) {
         if (password == null || password.trim().isEmpty()) {
             // Ajustando a resposta para corresponder ao novo DTO
@@ -108,7 +108,7 @@ public class PasswordValidatorService {
 
 
     private boolean isPasswordPwned(String password) {
-        // (O método isPasswordPwned continua o mesmo)
+
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-1");
             byte[] hashBytes = digest.digest(password.getBytes("UTF-8"));

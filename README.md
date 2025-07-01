@@ -24,6 +24,39 @@ Este é um projeto acadêmico para a disciplina de Segurança da Informação, c
 * **Versionamento:**
     * Git & GitHub
 
+## Estrutura do Projeto
+
+O projeto é organizado em uma arquitetura full-stack, com duas pastas principais na raiz: `frontend` e `gerador-senhas-api`.
+
+### Backend (`gerador-senhas-api`)
+
+O backend é uma API REST construída com Spring Boot e segue uma arquitetura em camadas para organizar as responsabilidades:
+
+* `src/main/java/br/com/lucas/gerador_senhas_api/`
+  * **`config/`**: Contém classes de configuração do Spring, com destaque para o `SecurityConfig`, que gerencia toda a segurança da aplicação (regras de acesso, filtros, CORS).
+  * **`controller/`**: Define os endpoints da API (as URLs) que o frontend pode chamar.
+  * **`service/`**: Contém a lógica de negócio principal (gerar senhas, validar força, autenticar usuários, gerenciar políticas).
+  * **`repository/`**: Interfaces do Spring Data JPA que facilitam o acesso ao banco de dados sem a necessidade de escrever SQL.
+  * **`model/`**: Classes de Entidade (`@Entity`) que representam as tabelas do banco de dados.
+  * **`policy/`**: Implementa o sistema de regras e políticas customizáveis para validação de senhas.
+  * **`filter/`**: Contém filtros customizados, como o `JwtAuthFilter`, que intercepta requisições para validar tokens de autenticação.
+  * **`crypto/`**: Responsável pela lógica de criptografia dos dados salvos no banco.
+  * **`dto/`**: (Data Transfer Objects) Classes simples para transportar dados entre o frontend e o backend.
+* `src/main/resources/`
+  * `application.properties`: Configurações gerais da aplicação (porta do servidor, configurações de SSL).
+  * `application-secrets.properties`: **(Ignorado pelo Git)** Arquivo que armazena dados sensíveis, como senhas de banco de dados e chaves secretas.
+
+### Frontend (`frontend`)
+
+O frontend é uma Single Page Application (SPA) construída com React e Vite.
+
+* `src/`
+  * **`pages/`**: Componentes React que representam uma página inteira da aplicação (ex: `HomePage`, `LoginPage`).
+  * **`components/`**: Componentes React menores e reutilizáveis usados dentro das páginas (ex: `PasswordHistory`).
+  * **`context/`**: Contém o `AuthContext`, nosso gerenciador de estado global que compartilha as informações de login por toda a aplicação.
+  * `main.jsx`: Ponto de entrada da aplicação, onde o roteador (`react-router-dom`) é configurado para gerenciar a navegação entre as páginas.
+* `vite.config.js`: Arquivo de configuração do Vite, onde habilitamos o HTTPS e o proxy para o ambiente de desenvolvimento.
+
 ## Como Executar o Projeto
 
 Este é um projeto full-stack com dois componentes que precisam ser executados separadamente.

@@ -1,35 +1,70 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 
-function PasswordHistory(){
+/**
+ * Componente final para exibir o histórico de senhas.
+ * Ele busca o histórico apenas se o usuário estiver autenticado.
+ */
+function PasswordHistory() {
 
     const [history, setHistory] = useState([]);
 
+
+    const { authToken, isAuthenticated } = useAuth();
+
+
     useEffect(() => {
-        const apiUrl = 'https://localhost:8443/api/historico';
 
-        fetch((apiUrl))
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Falha na rede ou na resposta da API');
+        if (isAuthenticated) {
+            const apiUrl = '/api/historico';
+
+            fetch(apiUrl, {
+                method: 'GET',
+
+                headers: {
+
+                    'Authorization': `Bearer ${authToken}`
                 }
-                return response.json();
             })
-            .then(data => {
-                setHistory(data); // Armazena a lista recebida no nosso estado
-            })
-            .catch(error => {
-                console.error('Erro ao buscar o histórico:', error);
-            });
+                .then(response => {
 
-    }, [])
+                    if (!response.ok) {
+                        throw new Error('Falha na rede ou na resposta da API');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    setHistory(data);
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar o histórico:', error);
+                    setHistory([]);
+                });
+        } else {
 
+            setHistory([]);
+        }
+    }, [isAuthenticated, authToken]);
+
+    // Função para formatar a data para o padrão brasileiro
     const formatDateTime = (dateTimeString) => {
         const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
         return new Date(dateTimeString).toLocaleString('pt-BR', options);
-
     };
 
-    return(
+
+
+    if (!isAuthenticated) {
+        return (
+            <div className="card">
+                <h2>Histórico de Senhas Geradas</h2>
+                <p>Por favor, faça login para ver seu histórico.</p>
+            </div>
+        );
+    }
+
+
+    return (
         <div className="card">
             <h2>Histórico de Senhas Geradas</h2>
             {history.length > 0 ? (
@@ -37,7 +72,7 @@ function PasswordHistory(){
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Senha</th>
+                        <th>Senha (Descriptografada)</th>
                         <th>Data de Criação</th>
                     </tr>
                     </thead>
@@ -48,7 +83,7 @@ function PasswordHistory(){
                             <td>{record.passwordValue}</td>
                             <td>{formatDateTime(record.createdAt)}</td>
                         </tr>
-                        ))}
+                    ))}
                     </tbody>
                 </table>
             ) : (

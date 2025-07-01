@@ -54,7 +54,7 @@ public class PasswordController {
     @PostMapping("/validar")
     public ValidationResponse validarSenha(
             @RequestBody ValidationRequest request,
-            @RequestParam(required = false) String policyKey) { // Recebe a chave da política como parâmetro opcional
+            @RequestParam(required = false) String policyKey) {
 
         return validatorService.validatePassword(request.password(), policyKey);
     }
