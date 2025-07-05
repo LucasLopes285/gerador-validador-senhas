@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import PasswordHistory from '../components/PasswordHistory';
+import StrengthBar from '../components/StrengthBar';
 import '../App.css';
 
 function HomePage() {
@@ -119,6 +120,13 @@ function HomePage() {
                         onChange={(e) => handleValidatePassword(e.target.value, selectedPolicy)}
                         disabled={!isAuthenticated}
                     />
+
+                    {passwordToValidate && validationResult && (
+                        <StrengthBar
+                            score={validationResult.score}
+                            strength={validationResult.strength}
+                        />
+                    )}
 
                     {isAuthenticated && validationResult && passwordToValidate && (
                         <div className="validation-results" style={{ marginTop: '1.5rem', textAlign: 'left' }}>
