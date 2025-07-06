@@ -212,6 +212,28 @@ tbody tr:nth-child(even) {
   background-color: #16a34a;
 }
 
+/* --- ESTILOS PARA O TEXTO DE FORÇA --- */
+.strength-text-compromised {
+  color: #fca5a5; /* Vermelho claro */
+  font-weight: bold;
+}
+.strength-text-weak {
+  color: #ef4444; /* Vermelho forte */
+  font-weight: bold;
+}
+.strength-text-medium {
+  color: #f59e0b; /* Amarelo/Laranja */
+  font-weight: bold;
+}
+.strength-text-strong {
+  color: #84cc16; /* Verde claro */
+  font-weight: bold;
+}
+.strength-text-very-strong {
+  color: #16a34a; /* Verde escuro */
+  font-weight: bold;
+}
+
 @media (min-width: 1024px) {
   .content-row {
     flex-direction: row;
