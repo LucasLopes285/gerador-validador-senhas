@@ -1,34 +1,47 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider, Link, Outlet, useNavigate } from 'react-router-dom';
+import {
+    createBrowserRouter,
+    RouterProvider,
+    Link,
+    Outlet
+} from 'react-router-dom';
+
+import ProtectedRoute from './router/ProtectedRoute';
 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import { useAuth, AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 
 import './index.css';
 
 
 const AppLayout = () => {
     const { isAuthenticated, user, logout } = useAuth();
-    const navigate = useNavigate();
 
     const handleLogout = () => {
+
         logout();
-        navigate('/login');
+
     };
 
     return (
         <>
             <header>
                 <nav>
-                    <Link to="/">Gerador/Validador</Link>
-                    {/* Renderização Condicional do Menu */}
+                    <div className="nav-main-links">
+                        {isAuthenticated ? (
+                            <Link to="/">Gerador/Validador</Link>
+                        ) : (
+                            <span style={{ fontWeight: 'bold', color: 'white', cursor: 'default' }}></span>
+                        )}
+                    </div>
+
                     <div className="auth-links">
                         {isAuthenticated ? (
                             <>
-                                <span>Olá, {user.sub}</span> {}
+                                <span>Olá, {user?.sub}</span>
                                 <button onClick={handleLogout} className="logout-button">Logout</button>
                             </>
                         ) : (
@@ -47,14 +60,23 @@ const AppLayout = () => {
     );
 };
 
+
 const router = createBrowserRouter([
     {
         element: <AppLayout />,
         children: [
             {
                 path: '/',
-                element: <HomePage />,
+                element: <ProtectedRoute />,
+
+                children: [
+                    {
+                        index: true,
+                        element: <HomePage />,
+                    },
+                ],
             },
+
             {
                 path: '/login',
                 element: <LoginPage />,
@@ -69,7 +91,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        {}
         <AuthProvider>
             <RouterProvider router={router} />
         </AuthProvider>

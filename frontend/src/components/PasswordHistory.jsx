@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useAuthFetch } from '../hooks/useAuthFetch';
 
 /**
  * Componente final para exibir o histórico de senhas.
@@ -10,43 +11,21 @@ function PasswordHistory() {
     const [history, setHistory] = useState([]);
 
 
-    const { authToken, isAuthenticated } = useAuth();
+    const { isAuthenticated } = useAuth();
 
+    const authFetch = useAuthFetch();
 
     useEffect(() => {
-
         if (isAuthenticated) {
-            const apiUrl = '/api/historico';
-
-            fetch(apiUrl, {
-                method: 'GET',
-
-                headers: {
-
-                    'Authorization': `Bearer ${authToken}`
-                }
-            })
-                .then(response => {
-
-                    if (!response.ok) {
-                        throw new Error('Falha na rede ou na resposta da API');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    setHistory(data);
-                })
-                .catch(error => {
-                    console.error('Erro ao buscar o histórico:', error);
-                    setHistory([]);
-                });
+            authFetch('/api/historico')
+                .then(response => response.json())
+                .then(data => setHistory(data))
+                .catch(error => console.error(error.message));
         } else {
-
             setHistory([]);
         }
-    }, [isAuthenticated, authToken]);
+    }, [isAuthenticated, authFetch]);
 
-    // Função para formatar a data para o padrão brasileiro
     const formatDateTime = (dateTimeString) => {
         const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
         return new Date(dateTimeString).toLocaleString('pt-BR', options);

@@ -2,11 +2,14 @@ import React, {useState, useEffect} from 'react';
 import {useAuth} from '../context/AuthContext';
 import PasswordHistory from '../components/PasswordHistory';
 import StrengthBar from '../components/StrengthBar';
+import { useAuthFetch } from '../hooks/useAuthFetch';
 import '../App.css';
 
 function HomePage() {
 
     const {isAuthenticated, authToken} = useAuth();
+
+    const authFetch = useAuthFetch();
 
 
     const [generatedPassword, setGeneratedPassword] = useState(
@@ -30,7 +33,7 @@ function HomePage() {
             case 'Muito Forte':
                 return 'strength-text-very-strong';
             default:
-                return ''; 
+                return '';
         }
     };
 
@@ -57,10 +60,7 @@ function HomePage() {
     const handleGeneratePassword = () => {
         if (!isAuthenticated) return;
         const apiUrl = '/api/gerar?length=16';
-        fetch(apiUrl, {
-            method: 'GET',
-            headers: {'Authorization': `Bearer ${authToken}`}
-        })
+        authFetch(apiUrl, {})
             .then(response => response.text())
             .then(data => setGeneratedPassword(data))
             .catch(error => console.error('Erro ao chamar a API de geração:', error));
@@ -73,19 +73,37 @@ function HomePage() {
             setValidationResult(null);
             return;
         }
+
         const apiUrl = `/api/validar?policyKey=${policyKey}`;
-        fetch(apiUrl, {
+
+
+
+        const options = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}`},
-            body: JSON.stringify({password: password})
-        })
-            .then(response => response.json())
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ password: password })
+        };
+
+
+        authFetch(apiUrl, options)
+            .then(response => {
+                if (!response.ok) {
+
+                    return response.text().then(text => { throw new Error(text) });
+                }
+                return response.json();
+            })
             .then(data => setValidationResult(data))
-            .catch(error => console.error('Erro ao chamar a API de validação:', error));
+            .catch(error => {
+                console.error('Erro ao chamar a API de validação:', error);
+                // Aqui você poderia setar um estado de erro para exibir na UI
+            });
     };
 
-
     return (
+
 
         <div className="main-layout">
 
