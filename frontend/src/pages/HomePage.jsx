@@ -102,6 +102,29 @@ function HomePage() {
             });
     };
 
+    const handleSavePassword = () => {
+        if (!passwordToValidate || !isAuthenticated) {
+            alert('Não há senha para salvar ou você não está logado.');
+            return;
+        }
+
+        authFetch('/api/historico', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: passwordToValidate })
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Senha salva no histórico com sucesso!');
+
+
+                } else {
+                    alert('Falha ao salvar a senha.');
+                }
+            })
+            .catch(error => console.error('Erro ao salvar senha:', error));
+    };
+
     return (
 
 
@@ -119,7 +142,7 @@ function HomePage() {
                         readOnly
                         style={{marginBottom: '1rem'}}
                     />
-                    <button onClick={handleGeneratePassword} disabled={!isAuthenticated}>
+                    <button onClick={handleGeneratePassword} disabled={!isAuthenticated} className="btn-primary">
                         Gerar Nova Senha
                     </button>
                 </div>
@@ -162,6 +185,19 @@ function HomePage() {
                         onChange={(e) => handleValidatePassword(e.target.value, selectedPolicy)}
                         disabled={!isAuthenticated}
                     />
+
+                    <button
+                        onClick={handleSavePassword}
+                        disabled={!isAuthenticated || !passwordToValidate}
+                        className="btn-primary"
+                        style={{ marginTop: '1rem' }}
+                    >
+                        Salvar Senha no Histórico
+                    </button>
+
+                    <p className="security-tip">
+                        <strong>Dica de segurança:</strong> Evite usar senhas com sequências numéricas (1234), de teclado (qwerty) ou que contenham informações pessoais como nomes e datas.
+                    </p>
 
                     {passwordToValidate && validationResult && (
                         <StrengthBar

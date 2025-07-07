@@ -42,7 +42,7 @@ const AppLayout = () => {
                         {isAuthenticated ? (
                             <>
                                 <span>Olá, {user?.sub}</span>
-                                <button onClick={handleLogout} className="logout-button">Logout</button>
+                                <button onClick={handleLogout} className="btn-primary">Logout</button>
                             </>
                         ) : (
                             <>

@@ -67,7 +67,7 @@ function LoginPage() {
                     />
                 </div>
                 {error && <p className="error-message">{error}</p>}
-                <button type="submit">Entrar</button>
+                <button type="submit" className="btn-primary">Entrar</button>
             </form>
         </div>
     );

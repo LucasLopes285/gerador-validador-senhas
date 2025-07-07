@@ -41,11 +41,6 @@ public class PasswordController {
         return passwordService.generatePassword(length, includeUppercase, includeDigits, includeSpecial);
     }
 
-    @GetMapping("/historico")
-    public List<PasswordHistory> getPasswordHistory(){
-        return historyRepository.findAllByOrderByIdDesc();
-    }
-
     @GetMapping("/politicas")
     public List<Map<String, String>> getPolicies(){
         return policyManagerService.getAvailablePolicies();

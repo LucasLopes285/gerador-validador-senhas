@@ -66,7 +66,7 @@ function RegisterPage() {
                     />
                 </div>
                 {error && <p className="error-message">{error}</p>}
-                <button type="submit">Cadastrar</button>
+                <button type="submit" className="btn-primary">Cadastrar</button>
             </form>
         </div>
     );

@@ -69,8 +69,34 @@ button {
   transition: background-color 0.2s;
 }
 
+button {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
 button:hover {
   background-color: #1d4ed8;
+}
+
+/* Estilo principal para botões de ação */
+.btn-primary {
+  background-color: #2563eb;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+/* Estilo para o botão quando desabilitado */
+.btn-primary:disabled {
+  background-color: #374151;
+  cursor: not-allowed;
 }
 
 .error-message {
@@ -214,24 +240,41 @@ tbody tr:nth-child(even) {
 
 /* --- ESTILOS PARA O TEXTO DE FORÇA --- */
 .strength-text-compromised {
-  color: #fca5a5; /* Vermelho claro */
+  color: #fca5a5;
   font-weight: bold;
 }
 .strength-text-weak {
-  color: #ef4444; /* Vermelho forte */
+  color: #ef4444;
   font-weight: bold;
 }
 .strength-text-medium {
-  color: #f59e0b; /* Amarelo/Laranja */
+  color: #f59e0b;
   font-weight: bold;
 }
 .strength-text-strong {
-  color: #84cc16; /* Verde claro */
+  color: #84cc16;
   font-weight: bold;
 }
 .strength-text-very-strong {
-  color: #16a34a; /* Verde escuro */
+  color: #16a34a;
   font-weight: bold;
+}
+
+/* --- ESTILO PARA O AVISO/DICA DE SEGURANÇA --- */
+
+.security-tip {
+  font-size: 0.85rem;
+  color: #fde047;
+  margin-top: 1.5rem;
+  text-align: left;
+  border-left: 4px solid #facc15;
+  padding: 0.75rem 1rem;
+  background-color: rgba(250, 204, 21, 0.08);
+  border-radius: 4px;
+}
+
+.security-tip strong {
+  color: white;
 }
 
 @media (min-width: 1024px) {
