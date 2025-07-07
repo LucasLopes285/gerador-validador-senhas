@@ -188,11 +188,16 @@ function HomePage() {
 
                     <button
                         onClick={handleSavePassword}
-                        disabled={!isAuthenticated || !passwordToValidate}
+                        disabled={
+                            !isAuthenticated ||
+                            !validationResult ||
+                            !['Forte', 'Muito Forte'].includes(validationResult.strength) ||
+                            !validationResult.policyResult?.isValid
+                        }
                         className="btn-primary"
                         style={{ marginTop: '1rem' }}
                     >
-                        Salvar Senha no Histórico
+                        Salvar Senha
                     </button>
 
                     <p className="security-tip">
