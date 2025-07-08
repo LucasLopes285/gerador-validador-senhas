@@ -16,6 +16,17 @@ body {
   text-align: center;
 }
 
+.secondary-password-card {
+  max-width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 450px;
+  margin: 4rem auto;
+}
 
 .card {
   background-color: #1f2937;
@@ -26,6 +37,12 @@ body {
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
+/* --- Estilo para limitar a largura dos formulários --- */
+
+.form-container {
+  max-width: 450px;
+  margin: 0 auto;
+}
 
 .form-group {
   margin-bottom: 1.5rem;

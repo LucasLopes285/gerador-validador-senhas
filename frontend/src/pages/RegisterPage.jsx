@@ -41,7 +41,7 @@ function RegisterPage() {
 
 
     return (
-        <div className="card">
+        <div className="card auth-card">
             <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '1.5rem' }}>Cadastro</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">

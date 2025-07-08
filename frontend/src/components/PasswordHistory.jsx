@@ -127,7 +127,7 @@ function PasswordHistory() {
         <div className="card">
             {showSetPasswordForm ? (
                 // --- Formulário de CADASTRO da Segunda Senha ---
-                <div>
+                <div className="secondary-password-card">
                     <h2 style={{marginBottom: '1rem'}}>Cadastrar Senha de Segurança</h2>
                     <form onSubmit={handleSetSecondPassword}>
                         <div className="form-group">
@@ -145,7 +145,7 @@ function PasswordHistory() {
                 </div>
             ) : (
                 // --- Formulário para ACESSAR o Histórico ---
-                <div>
+                <div className="form-container">
                     <h2>Acessar Histórico de Senhas</h2>
                     <p style={{color: '#9ca3af', fontSize: '0.9rem'}}>Por segurança, digite sua segunda senha para ver o histórico.</p>
                     <form onSubmit={handleFetchHistory} style={{ marginTop: '1rem' }}>
@@ -157,9 +157,9 @@ function PasswordHistory() {
                         <button type="submit" className="btn-primary">Ver Histórico</button>
                     </form>
                     <p style={{marginTop: '1.5rem', fontSize: '0.9rem'}}>
-                        Não possui ou esqueceu a senha?{' '}
+                        Não possui uma senha?{' '}
                         <span onClick={() => setShowSetPasswordForm(true)} style={{color: '#60a5fa', cursor: 'pointer', textDecoration: 'underline'}}>
-                            Cadastre/Redefina uma nova.
+                        Crie uma nova.
                         </span>
                     </p>
                 </div>

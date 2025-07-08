@@ -9,6 +9,18 @@ Este é um projeto acadêmico para a disciplina de Segurança da Informação, c
 * **Comunicação Segura:** A API é servida exclusivamente via HTTPS para garantir a confidencialidade dos dados.
 * **Histórico:** Salva as senhas geradas em um banco de dados para consulta futura.
 
+## Demonstração Visual
+
+<table>
+  <tr>
+    <td align="center">
+      <strong>Tela Principal</strong><br><br>
+      <img src="./docs/demo.gif" alt="Fluxo da tela principal" width="400"/>
+    </td>
+    
+  </tr>
+</table>
+
 ## Tecnologias Utilizadas
 
 * **Backend:**
@@ -33,29 +45,31 @@ O projeto é organizado em uma arquitetura full-stack, com duas pastas principai
 O backend é uma API REST construída com Spring Boot e segue uma arquitetura em camadas para organizar as responsabilidades:
 
 * `src/main/java/br/com/lucas/gerador_senhas_api/`
-  * **`config/`**: Contém classes de configuração do Spring, com destaque para o `SecurityConfig`, que gerencia toda a segurança da aplicação (regras de acesso, filtros, CORS).
+  * **`config/`**: Classes de configuração do Spring, com destaque para o `SecurityConfig`, que gerencia toda a segurança da aplicação.
   * **`controller/`**: Define os endpoints da API (as URLs) que o frontend pode chamar.
-  * **`service/`**: Contém a lógica de negócio principal (gerar senhas, validar força, autenticar usuários, gerenciar políticas).
-  * **`repository/`**: Interfaces do Spring Data JPA que facilitam o acesso ao banco de dados sem a necessidade de escrever SQL.
-  * **`model/`**: Classes de Entidade (`@Entity`) que representam as tabelas do banco de dados.
-  * **`policy/`**: Implementa o sistema de regras e políticas customizáveis para validação de senhas.
-  * **`filter/`**: Contém filtros customizados, como o `JwtAuthFilter`, que intercepta requisições para validar tokens de autenticação.
+  * **`service/`**: Contém a lógica de negócio principal (gerar senhas, validar força, autenticar usuários, etc.).
+  * **`repository/`**: Interfaces do Spring Data JPA que facilitam o acesso ao banco de dados.
+  * **`model/`**: Classes de Entidade (`@Entity`) que mapeiam as tabelas do banco de dados.
+  * **`policy/`**: Implementa o sistema de regras e políticas customizáveis para validação.
+  * **`filter/`**: Contém o `JwtAuthFilter`, que intercepta requisições para validar tokens.
   * **`crypto/`**: Responsável pela lógica de criptografia dos dados salvos no banco.
-  * **`dto/`**: (Data Transfer Objects) Classes simples para transportar dados entre o frontend e o backend.
+  * **`dto/`**: (Data Transfer Objects) Classes para transportar dados entre o frontend e o backend.
 * `src/main/resources/`
-  * `application.properties`: Configurações gerais da aplicação (porta do servidor, configurações de SSL).
-  * `application-secrets.properties`: **(Ignorado pelo Git)** Arquivo que armazena dados sensíveis, como senhas de banco de dados e chaves secretas.
+  * `application.properties`: Configurações gerais da aplicação.
+  * `application-secrets.properties`: **(Ignorado pelo Git)** Arquivo que armazena dados sensíveis.
 
 ### Frontend (`frontend`)
 
 O frontend é uma Single Page Application (SPA) construída com React e Vite.
 
 * `src/`
-  * **`pages/`**: Componentes React que representam uma página inteira da aplicação (ex: `HomePage`, `LoginPage`).
-  * **`components/`**: Componentes React menores e reutilizáveis usados dentro das páginas (ex: `PasswordHistory`).
-  * **`context/`**: Contém o `AuthContext`, nosso gerenciador de estado global que compartilha as informações de login por toda a aplicação.
-  * `main.jsx`: Ponto de entrada da aplicação, onde o roteador (`react-router-dom`) é configurado para gerenciar a navegação entre as páginas.
-* `vite.config.js`: Arquivo de configuração do Vite, onde habilitamos o HTTPS e o proxy para o ambiente de desenvolvimento.
+  * **`pages/`**: Componentes React que representam uma página inteira (ex: `HomePage`, `LoginPage`).
+  * **`components/`**: Componentes React menores e reutilizáveis (ex: `PasswordHistory`, `StrengthBar`).
+  * **`context/`**: Contém o `AuthContext` para gerenciamento de estado global de autenticação.
+  * **`hooks/`**:  Hooks customizados, como o `useAuthFetch` para fazer chamadas de API autenticadas.
+  * **`router/`**: Contém a lógica de roteamento protegido, como o componente `ProtectedRoute`.
+  * `main.jsx`: Ponto de entrada da aplicação, onde o roteador (`react-router-dom`) é configurado.
+* `vite.config.js`: Arquivo de configuração do Vite (HTTPS e proxy).
 
 ## Como Executar o Projeto
 
