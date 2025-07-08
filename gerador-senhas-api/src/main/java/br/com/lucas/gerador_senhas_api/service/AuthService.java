@@ -51,4 +51,26 @@ public class AuthService {
         throw new RuntimeException("Erro ao tentar fazer login.");
         }
     }
+
+    public void setSecondFactorPassword(String email, String secondPassword){
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+
+        user.setSecondFactorPassword(passwordEncoder.encode(secondPassword));
+        userRepository.save(user);
+    }
+
+    public boolean verifySecondFactorPassword(String email, String rawSecondPassword) {
+       User user = userRepository.findByEmail(email)
+               .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+
+       String storeHashedPassword = user.getSecondFactorPassword();
+
+        if (storeHashedPassword == null || storeHashedPassword.isEmpty()) {
+            throw new RuntimeException("Senha de segurança não cadastrada.");
+        }
+        return passwordEncoder.matches(rawSecondPassword, storeHashedPassword);
+    }
+
+
 }

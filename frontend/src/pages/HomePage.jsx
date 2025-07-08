@@ -98,7 +98,7 @@ function HomePage() {
             .then(data => setValidationResult(data))
             .catch(error => {
                 console.error('Erro ao chamar a API de validação:', error);
-                // Aqui você poderia setar um estado de erro para exibir na UI
+
             });
     };
 
@@ -108,7 +108,7 @@ function HomePage() {
             return;
         }
 
-        authFetch('/api/historico', {
+        authFetch('/api/historico/save', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ password: passwordToValidate })
