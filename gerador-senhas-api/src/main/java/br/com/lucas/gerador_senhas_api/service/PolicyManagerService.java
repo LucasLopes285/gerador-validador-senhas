@@ -17,9 +17,13 @@ public class PolicyManagerService {
         buildDefaultPolicies();
     }
 
-    private void buildDefaultPolicies(){
-        PasswordPolicy corporateBasic = new PasswordPolicy(
-                "Política Corporativa Básica",
+    private void buildDefaultPolicies() {
+
+        policies.clear();
+
+
+        policies.put("CORPORATE_BASIC", new PasswordPolicy(
+                "Corporativa Básica - Escritórios padrão",
                 List.of(
                         new MinimumLengthRule(8),
                         new RequiresLowercaseRule(),
@@ -27,21 +31,77 @@ public class PolicyManagerService {
                         new RequiresNumberRule(),
                         new RequiresSpecialCharacterRule()
                 )
-        );
-        policies.put("CORPORATE_BASIC", corporateBasic);
+        ));
 
-        PasswordPolicy simple = new PasswordPolicy(
-                "Política Simples (Sites Básicos)",
+
+        policies.put("BANKING_HIGH_SEC", new PasswordPolicy(
+                "Bancária - Alta segurança financeira",
+                List.of(
+                        new MinimumLengthRule(12),
+                        new RequiresLowercaseRule(),
+                        new RequiresUppercaseRule(),
+                        new RequiresNumberRule(),
+                        new RequiresSpecialCharacterRule()
+                )
+        ));
+
+
+        policies.put("SIMPLE", new PasswordPolicy(
+                "Simples - Sites básicos/pessoais",
+                List.of(
+                        new MinimumLengthRule(8),
+                        new RequiresLowercaseRule(),
+                        new RequiresNumberRule()
+                )
+        ));
+
+
+        policies.put("GOVERNMENT_EXTREME", new PasswordPolicy(
+                "Governamental - Máxima segurança",
+                List.of(
+                        new MinimumLengthRule(16),
+                        new RequiresLowercaseRule(),
+                        new RequiresUppercaseRule(),
+                        new RequiresNumberRule(),
+                        new RequiresSpecialCharacterRule()
+                )
+        ));
+
+
+        policies.put("GAMING", new PasswordPolicy(
+                "Gaming - Jogos e entretenimento",
                 List.of(
                         new MinimumLengthRule(6),
                         new RequiresLowercaseRule(),
                         new RequiresUppercaseRule()
-                )
-        );
-        policies.put("SIMPLE", simple);
 
-        // resto das politicas aqui
+                )
+        ));
+
+
+        policies.put("SOCIAL_MEDIA", new PasswordPolicy(
+                "Redes Sociais - Plataformas sociais",
+                List.of(
+                        new MinimumLengthRule(8),
+                        new RequiresLowercaseRule(),
+                        new RequiresNumberRule(),
+                        new RequiresSpecialCharacterRule()
+                )
+        ));
+
+
+        policies.put("IOT_ROUTERS", new PasswordPolicy(
+                "IoT/Roteadores - Dispositivos conectados",
+                List.of(
+                        new MinimumLengthRule(8),
+                        new RequiresLowercaseRule(),
+                        new RequiresUppercaseRule(),
+                        new RequiresNumberRule()
+
+                )
+        ));
     }
+
 
     public PasswordPolicy getPolicy(String policyKey){
         if(policyKey == null) return null;
