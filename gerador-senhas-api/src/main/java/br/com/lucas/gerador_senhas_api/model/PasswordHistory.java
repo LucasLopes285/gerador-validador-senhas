@@ -1,6 +1,7 @@
 package br.com.lucas.gerador_senhas_api.model;
 
 import br.com.lucas.gerador_senhas_api.crypto.StringCryptoConverter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -20,19 +21,22 @@ public class PasswordHistory {
     @Column(name = "created_id", nullable = false)
     private LocalDateTime createdAt;
 
-    public PasswordHistory() {}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private User user;
 
-    public PasswordHistory(String passwordValue){
+    public PasswordHistory() {
+    }
+
+    public PasswordHistory(String passwordValue, User user) {
         this.passwordValue = passwordValue;
+        this.user = user;
         this.createdAt = LocalDateTime.now();
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-
     }
 
     public String getPasswordValue() {
@@ -50,4 +54,9 @@ public class PasswordHistory {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+    public User getUser() {return user; }
+
+    public void setUser(User user) {
+        this.user = user; }
 }

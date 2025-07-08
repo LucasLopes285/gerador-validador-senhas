@@ -2,7 +2,10 @@ package br.com.lucas.gerador_senhas_api.service;
 
 import br.com.lucas.gerador_senhas_api.model.PasswordHistory;
 import br.com.lucas.gerador_senhas_api.repository.PasswordHistoryRepository;
+import br.com.lucas.gerador_senhas_api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -20,7 +23,9 @@ public class PasswordGeneratorService {
     private static final SecureRandom random = new SecureRandom();
 
     @Autowired
-    private PasswordHistoryRepository historyRepository;
+    private HistoryService historyService;
+    @Autowired
+    private UserRepository userRepository;
 
     public String generatePassword(int length, boolean includeUppercase, boolean includeDigits, boolean includeSpecial) {
         StringBuilder password = new StringBuilder(length);
@@ -48,9 +53,13 @@ public class PasswordGeneratorService {
 
         String generatedPassword = password.toString();
 
-        PasswordHistory historyRecord = new PasswordHistory(generatedPassword);
-
-        historyRepository.save(historyRecord);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            userRepository.findByEmail(username).ifPresent(user -> {
+                historyService.savePassword(generatedPassword, user);
+            });
+        }
 
         return generatedPassword;
     }
