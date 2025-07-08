@@ -8,7 +8,7 @@ Este projeto consiste em uma aplicação web full-stack, desenvolvida com um for
   <tr>
     <td align="center">
       <strong>Fluxo da Tela Principal</strong><br><br>
-      <img src="./docs/demo.gif" alt="Demonstração da Aplicação" width="900"/>
+      <img src="./docs/demo.gif" alt="Demonstração da Aplicação" width="800"/>
     </td>
   </tr>
 </table>
